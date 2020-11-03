@@ -1,5 +1,5 @@
 {
-  "entrypoint": "world.cepi.example.ExampleExtension",
-  "name": "ExampleExtension",
+  "entrypoint": "world.cepi.Moderation.ModerationExtension",
+  "name": "ModerationExtension",
   "version": "1.0.0-EXAMPLE"
 }

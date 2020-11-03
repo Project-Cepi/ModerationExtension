@@ -1,10 +1,13 @@
-package world.cepi.example
+package world.cepi.Moderation
 
+import net.minestom.server.MinecraftServer
 import net.minestom.server.extensions.Extension;
+import world.cepi.Moderation.Commands.KickCommand
 
-class ExampleExtension : Extension() {
+class ModerationExtension : Extension() {
 
     override fun initialize() {
+        MinecraftServer.getCommandManager().register(KickCommand())
         logger.info("[ExampleExtension] has been enabled!")
     }
 
