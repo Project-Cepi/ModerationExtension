@@ -1,9 +1,8 @@
-package world.cepi.Moderation.Commands
+package world.cepi.moderation.Commands
 
 import net.minestom.server.MinecraftServer
 import net.minestom.server.chat.ChatColor
 import net.minestom.server.command.builder.Command
-import net.minestom.server.command.builder.arguments.Argument
 import net.minestom.server.command.builder.arguments.ArgumentType
 import net.minestom.server.entity.Player
 

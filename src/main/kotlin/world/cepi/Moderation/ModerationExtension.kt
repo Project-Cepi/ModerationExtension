@@ -1,8 +1,8 @@
-package world.cepi.Moderation
+package world.cepi.moderation
 
 import net.minestom.server.MinecraftServer
 import net.minestom.server.extensions.Extension;
-import world.cepi.Moderation.Commands.KickCommand
+import world.cepi.moderation.Commands.KickCommand
 
 class ModerationExtension : Extension() {
 
