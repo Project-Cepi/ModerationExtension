@@ -1,4 +1,4 @@
-package world.cepi.moderation.Commands
+package world.cepi.moderation.commands
 
 import net.minestom.server.MinecraftServer
 import net.minestom.server.chat.ChatColor

@@ -1,4 +1,4 @@
-package world.cepi.moderation.Commands
+package world.cepi.moderation.commands
 import net.minestom.server.command.CommandSender
 import net.minestom.server.command.builder.Arguments
 import net.minestom.server.command.builder.Command
