@@ -8,9 +8,7 @@ import net.minestom.server.entity.Player
 
 class KickCommand: Command("kick") {
 
-    fun getPlayer(name: String): Player? {
-        return MinecraftServer.getConnectionManager().onlinePlayers.firstOrNull { it.username.equals(name, true) }
-    }
+    fun getPlayer(name: String): Player? = MinecraftServer.getConnectionManager().onlinePlayers.firstOrNull { it.username.equals(name, true) }
 
     init {
         setDefaultExecutor {sender, _ ->
@@ -18,12 +16,12 @@ class KickCommand: Command("kick") {
         }
         val playerArg = ArgumentType.Word("player")
         val reasonArg = ArgumentType.StringArray("reason")
-        addSyntax({sender, args ->
+        addSyntax({ sender, args ->
             val player = sender as Player
             if (getPlayer(args.getWord("player")) != player) player.sendMessage("${ChatColor.BRIGHT_GREEN} + You kicked ${getPlayer(args.getWord("player"))?.displayName}")
             getPlayer(args.getWord("player"))?.kick("You were kicked from the server.")
         }, playerArg)
-        addSyntax({sender, args ->
+        addSyntax({ sender, args ->
             val player = sender as Player
             //will add perms later
             val reasonRaw = args.getStringArray("reason")
