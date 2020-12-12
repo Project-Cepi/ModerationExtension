@@ -1,2 +1,2 @@
-# ExampleExtension
- An example extension for Minestom
+# ModerationExtension
+ Basic extension that contains /kick and /ban.
