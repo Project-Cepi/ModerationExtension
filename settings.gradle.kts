@@ -1,2 +1,3 @@
-rootProject.name = "ExampleExtension"
+rootProject.name = "ModerationExtension"
 
+"Example
