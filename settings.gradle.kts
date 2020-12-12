@@ -1,3 +1,1 @@
 rootProject.name = "ModerationExtension"
-
-"Example
