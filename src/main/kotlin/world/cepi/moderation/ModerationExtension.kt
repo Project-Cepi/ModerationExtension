@@ -8,10 +8,10 @@ import world.cepi.moderation.commands.KickCommand
 class ModerationExtension : Extension() {
 
     override fun initialize() {
-        logger.info("[ModerationExtension] has been enabled!")
-
         MinecraftServer.getCommandManager().register(KickCommand())
         MinecraftServer.getCommandManager().register(BanCommand())
+
+        logger.info("[ModerationExtension] has been enabled!")
     }
 
     override fun terminate() {

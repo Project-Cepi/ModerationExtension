@@ -1,10 +1,10 @@
 package world.cepi.moderation.commands
 
 import net.minestom.server.MinecraftServer
-import net.minestom.server.chat.ChatColor
 import net.minestom.server.command.CommandSender
 import net.minestom.server.command.builder.Command
 import net.minestom.server.entity.Player
+import world.cepi.kstom.command.addSyntax
 import world.cepi.moderation.CommandArguments
 
 class BanCommand : Command("ban") {
@@ -24,33 +24,36 @@ class BanCommand : Command("ban") {
             sender.sendMessage("Usage: /ban <player (online or offline)>")
         }
 
-        addSyntax({sender, args ->
+        addSyntax(CommandArguments.playerArg) { sender, args ->
 
-            ban(sender, args.getWord("player"), "Banned by an operator")
+            val target = args.get(CommandArguments.playerArg).find(sender)[0] as? Player
 
-        }, CommandArguments.playerArg)
-
-        addSyntax({sender, args ->
-
-            var reason = ""
-            for (r in args.getStringArray("reason")) {
-                reason += " $r"
+            if (target == null) {
+                sender.sendMessage("Player not found!")
+                return@addSyntax
             }
-            reason = reason.replaceFirst(" ", "")
 
-            ban(sender, args.getWord("player"), reason)
+            ban(sender, target, "Banned by an operator")
+
+        }
+
+        addSyntax({sender, args ->
+
+            val target = args.get(CommandArguments.playerArg).find(sender)[0] as? Player
+
+            if (target == null) {
+                sender.sendMessage("Player not found!")
+                return@addSyntax
+            }
+
+            val reason = args.get(CommandArguments.reasonArg)
+
+            ban(sender, target, reason)
 
         }, CommandArguments.playerArg, CommandArguments.reasonArg)
     }
 
-    private fun ban(sender: CommandSender, playerName: String, reason: String) {
-        val player = getPlayer(playerName)
-
-        if (player == null) {
-            sender.sendMessage("${ChatColor.RED}Player $playerName doesn't exist.")
-            return;
-        }
-
+    private fun ban(sender: CommandSender, player: Player, reason: String) {
         // TODO: Invoke the actual ban system
     }
 

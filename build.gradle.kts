@@ -42,7 +42,7 @@ dependencies {
     compileOnly("com.github.Minestom:Minestom:72ad230872")
 
     // implement KStom
-    compileOnly("com.github.Project-Cepi:KStom:120c4c5475")
+    compileOnly("com.github.Project-Cepi:KStom:9950e8305f")
 }
 
 tasks.withType<Test> {
