@@ -1,6 +1,12 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     // Apply the Kotlin JVM plugin to add support for Kotlin.
-    id("org.jetbrains.kotlin.jvm") version "1.4.31"
+    kotlin("jvm") version "1.4.31"
+    id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("org.jetbrains.dokka") version "1.4.32"
+    kotlin("plugin.serialization") version "1.4.21"
+    `maven-publish`
 
     // Apply the application plugin to add support for building a jar
     java
@@ -20,35 +26,56 @@ repositories {
 
 dependencies {
     // Align versions of all Kotlin components
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+    compileOnly(platform("org.jetbrains.kotlin:kotlin-bom"))
 
     // Use the Kotlin JDK 8 standard library.
-    implementation(kotlin("stdlib"))
+    compileOnly(kotlin("stdlib"))
 
     // Use the Kotlin reflect library.
-    implementation(kotlin("reflect"))
+    compileOnly(kotlin("reflect"))
 
     // Use the JUpiter test library.
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
 
     // Compile Minestom into project
-    implementation("com.github.Minestom:Minestom:master-SNAPSHOT")
+    compileOnly("com.github.Minestom:Minestom:72ad230872")
 
-    // Use the Netty library
-    implementation("io.netty:netty-transport-native-epoll:4.1.59.Final")
-
-    // KHTTP
-    implementation("khttp:khttp:1.0.0")
-
-    // Implement Klaxon
-    implementation("com.beust:klaxon:5.4")
+    // implement KStom
+    compileOnly("com.github.Project-Cepi:KStom:9950e8305f")
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+configurations {
+    testImplementation {
+        extendsFrom(configurations.compileOnly.get())
+    }
+}
+
+tasks {
+    named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+        archiveBaseName.set("moderation")
+        mergeServiceFiles()
+        minimize()
+
+    }
+
+    test { useJUnitPlatform() }
+
+    build { dependsOn(shadowJar) }
+
+}
+
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { kotlinOptions.jvmTarget = "11" }
+val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+
+compileKotlin.kotlinOptions {
+    freeCompilerArgs = listOf("-Xinline-classes")
 }

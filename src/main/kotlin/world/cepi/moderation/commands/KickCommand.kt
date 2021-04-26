@@ -5,6 +5,7 @@ import net.minestom.server.chat.ChatColor
 import net.minestom.server.command.builder.Command
 import net.minestom.server.entity.Player
 import world.cepi.moderation.CommandArguments
+import world.cepi.kstom.command.addSyntax
 
 class KickCommand: Command("kick") {
 
@@ -16,21 +17,34 @@ class KickCommand: Command("kick") {
         setDefaultExecutor { sender, _ ->
             sender.sendMessage("Usage: /kick <player> <reason>")
         }
-        addSyntax({sender, args ->
-            val player = sender as Player
-            if (getPlayer(args.getWord("player")) != player) player.sendMessage("${ChatColor.BRIGHT_GREEN} + You kicked ${getPlayer(args.getWord("player"))?.displayName}")
-            getPlayer(args.getWord("player"))?.kick("You were kicked from the server.")
-        }, CommandArguments.playerArg)
-        addSyntax({sender, args ->
-            val player = sender as Player
-            //will add perms later
-            val reasonRaw = args.getStringArray("reason")
-            var reason = ""
-            for (r in reasonRaw) {
-                reason += "$r "
+
+        addSyntax(CommandArguments.playerArg) { sender, args ->
+
+            val target = args.get(CommandArguments.playerArg).find(sender)[0] as? Player
+
+            if (target == null) {
+                sender.sendMessage("Player not found!")
+                return@addSyntax
             }
-            if (getPlayer(args.getWord("player")) != player) player.sendMessage("${ChatColor.BRIGHT_GREEN} + You kicked ${getPlayer(args.getWord("player"))?.displayName}")
-            getPlayer(args.getWord("player"))?.kick(reason)
-        }, CommandArguments.playerArg, CommandArguments.reasonArg)
+
+            sender.sendMessage("${ChatColor.BRIGHT_GREEN} + You kicked ${target.displayName}")
+
+            target.kick("You were kicked from the server.")
+        }
+
+        addSyntax(CommandArguments.playerArg, CommandArguments.reasonArg) { sender, args ->
+
+            val target = args.get(CommandArguments.playerArg).find(sender)[0] as? Player
+
+            if (target == null) {
+                sender.sendMessage("Player not found!")
+                return@addSyntax
+            }
+
+            val reason = args.get(CommandArguments.reasonArg)
+
+            sender.sendMessage("${ChatColor.BRIGHT_GREEN} + You kicked ${getPlayer(args.getWord("player"))?.displayName}")
+            target.kick(reason)
+        }
     }
 }
